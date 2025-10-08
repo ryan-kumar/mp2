@@ -1,0 +1,65 @@
+.outer {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.cliBox {
+  border: 2px solid black;
+  border-radius: 6px;
+  width: 80%;
+  max-width: 600px;
+  padding: 2rem;
+  font-family: 'Courier New', monospace;
+  background-color: #fdfdfd;
+}
+
+.prompt {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.section {
+  margin-top: 1rem;
+}
+
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+.wrapselect {
+  margin-top: 0%;
+  display:flex;
+  gap: 10%;
+
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toggleButton {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  background: white;
+}
+.toggleButton[data-state='on'] {
+  background: #333;
+  color: white;
+}

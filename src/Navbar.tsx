@@ -1,13 +1,5 @@
-import React from 'react';
-import { SelectChangeEvent } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React, { useState } from 'react';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import styles from './Navbar.module.scss';
 import pball from './assets/pball.png';
 
@@ -16,38 +8,37 @@ interface NavbarProps {
 }
 
 function Navbar({ onViewChange }: NavbarProps) {
-  const [view, setView] = React.useState('Search'); 
+  const [view, setView] = useState('Search');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const newView = event.target.value;
-    setView(newView);
-    onViewChange(newView); 
+  const handleChange = (value: string) => {
+    setView(value);
+    onViewChange(value);
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar className={styles.container}>
-        <Typography id="NavTitle" variant="h5" sx={{ flexGrow: 1 }}>
-          <img className={styles.img} src={pball} alt="pokeball image"/>
-          Pokèxplorer
-        </Typography>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-            <InputLabel id="select-view-label">View</InputLabel>
-            <Select
-              labelId="select-view-label"
-              id="select-view"
-              value={view}
-              label="View"
-              onChange={handleChange}
-            >
-              <MenuItem value="Search">Search</MenuItem>
-              <MenuItem value="Gallery">Gallery</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-      </Toolbar>
-    </AppBar>
+    <header className={styles.navbar}>
+      <div className={styles.brand}>
+        <img className={styles.pokeball} src={pball} alt="pokeball" />
+        <h1 className={styles.title}>Pokéxplorer</h1>
+      </div>
+
+
+       <div className={styles.section}>
+          <ToggleGroup.Root
+            className={styles.toggleGroup}
+            type="single"
+            value={view}
+            onValueChange={(val) => val && handleChange(val)}
+          >
+            <ToggleGroup.Item className={styles.toggleButton} value="Search">
+              Search
+            </ToggleGroup.Item>
+            <ToggleGroup.Item className={styles.toggleButton} value="Gallery">
+              Gallery
+            </ToggleGroup.Item>
+          </ToggleGroup.Root>
+        </div>
+    </header>
   );
 }
 

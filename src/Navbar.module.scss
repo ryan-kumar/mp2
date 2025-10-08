@@ -1,9 +1,42 @@
-.container {
-    margin-left: 2%;
-    margin-right: 1%;
-
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: palevioletred;
+  color: white;
 }
-.img {
-    height: 10rem;
-    width: auto;
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pokeball {
+  height: 3rem;
+  width: auto;
+}
+
+.title {
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toggleButton {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  background: white;
+}
+.toggleButton[data-state='on'] {
+  background: #333;
+  color: white;
 }
