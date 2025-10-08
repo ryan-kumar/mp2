@@ -31,7 +31,7 @@ function Navbar({ onViewChange }: NavbarProps) {
             onValueChange={(val) => val && handleChange(val)}
           >
             <ToggleGroup.Item className={styles.toggleButton} value="Search">
-              Search
+              Search List
             </ToggleGroup.Item>
             <ToggleGroup.Item className={styles.toggleButton} value="Gallery">
               Gallery
