@@ -2,6 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Search from './Search';
 import Gallery from './Gallery';
+import DetailView from './Detail';
 
 function App() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Search/>} />
         <Route path="/gallery" element={<Gallery/>} />
+        <Route path="/detail" element={<DetailView />} /> 
       </Routes>
     </>
   );

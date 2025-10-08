@@ -1,0 +1,26 @@
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  text-align: center;
+}
+
+.card img {
+  width: 150px;
+  height: 150px;
+}

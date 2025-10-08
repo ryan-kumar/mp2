@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import styles from './Search.module.scss';
@@ -6,25 +7,25 @@ import axios from 'axios';
 
 
 function Search() {
-
     type PokemonListItem = {
         name: string;
         url: string;
         };
-    type PokemonDetail = {
-        name: string;
-        id: number;
-        sprites: {
-            front_default: string;
-        };
-        types: { type: { name: string } }[];
-    };
+    // type PokemonDetail = {
+    //     name: string;
+    //     id: number;
+    //     sprites: {
+    //         front_default: string;
+    //     };
+    //     types: { type: { name: string } }[];
+    // };
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState('title');
   const [order, setOrder] = useState('ascending');
   const [items, setItems] = useState<PokemonListItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<PokemonListItem[]>([]);
-  const [selectedPokemon, setSelectedPokemon] = useState<PokemonDetail | null>(null);
+  //const [selectedPokemon, setSelectedPokemon] = useState<PokemonDetail | null>(null);
+  const navigate = useNavigate();
 
  const getPokemon = async () => {
   const apiPath = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
@@ -37,16 +38,16 @@ function Search() {
   }
   };
 
-  const getDetails = async (apiPath: string | undefined) => {
-  apiPath  = apiPath ? apiPath : '';
-  try {
-    const res = await axios.get(apiPath, {});
-    setSelectedPokemon(res.data);
-    console.log(res.data);
-  } catch (error) {
-    console.error("Error fetching Pokémon details:", error);
-  }
-  };
+//   const getDetails = async (apiPath: string | undefined) => {
+//   apiPath  = apiPath ? apiPath : '';
+//   try {
+//     const res = await axios.get(apiPath, {});
+//     setSelectedPokemon(res.data);
+//     console.log(res.data);
+//   } catch (error) {
+//     console.error("Error fetching Pokémon details:", error);
+//   }
+//   };
 
   const handleSearch = (q: string | undefined) => {
     setQuery(q ? q : '');
@@ -57,9 +58,9 @@ function Search() {
     setFilteredItems(items.filter((p) => p.name.toLowerCase().includes(q ? q.toLowerCase() : '')));
   };
 
-  const resetSelection = () => {
-    setSelectedPokemon(null);
-  }
+//   const resetSelection = () => {
+//     setSelectedPokemon(null);
+//   }
 
   useEffect(() => {
     getPokemon();
@@ -144,7 +145,7 @@ function Search() {
         })
         .slice(0, 50)
         .map((p) => (
-          <div key={p.name} className={styles.resultRow} onClick={() => getDetails(p.url)}>
+          <div key={p.name} className={styles.resultRow} onClick={() => navigate('/detail', { state: { apiPath: p.url } })}>
             <img
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.url
                 .split("/")
@@ -162,25 +163,7 @@ function Search() {
   </div>
 )}
 
-    {selectedPokemon && (
-  <div className={styles.modalBackdrop} onClick={resetSelection}>
-    <div
-      className={styles.modalCard}
-      onClick={(e) => e.stopPropagation()} // prevent backdrop click from closing
-    >
-      <h2>{selectedPokemon.name}</h2>
-      <img
-        src={selectedPokemon.sprites.front_default}
-        alt={selectedPokemon.name}
-      />
-      <p>ID: {selectedPokemon.id}</p>
-      <p>
-        Types: {selectedPokemon.types.map((t) => t.type.name).join(", ")}
-      </p>
-      <button onClick={resetSelection}>Close</button>
-    </div>
-  </div>
-)}
+   
      </>
   );
 }
