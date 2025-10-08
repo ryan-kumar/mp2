@@ -4,6 +4,7 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import styles from './Search.module.scss';
 import axios from 'axios';
 
+
 function Search() {
 
     type PokemonListItem = {
@@ -55,6 +56,10 @@ function Search() {
     }
     setFilteredItems(items.filter((p) => p.name.toLowerCase().includes(q ? q.toLowerCase() : '')));
   };
+
+  const resetSelection = () => {
+    setSelectedPokemon(null);
+  }
 
   useEffect(() => {
     getPokemon();
@@ -126,14 +131,12 @@ function Search() {
     <div className={styles.resultsContainer}>
       {[...filteredItems]
         .sort((a, b) => {
-          // extract numeric IDs from their URLs
           const idA = parseInt(a.url.split('/').slice(-2, -1)[0]);
           const idB = parseInt(b.url.split('/').slice(-2, -1)[0]);
 
           if (sortBy === "ID") {
             return order === "ascending" ? idA - idB : idB - idA;
           } else {
-            // default sort by name/title
             return order === "ascending"
               ? a.name.localeCompare(b.name)
               : b.name.localeCompare(a.name);
@@ -141,7 +144,7 @@ function Search() {
         })
         .slice(0, 50)
         .map((p) => (
-          <div key={p.name} className={styles.resultRow}>
+          <div key={p.name} className={styles.resultRow} onClick={() => getDetails(p.url)}>
             <img
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.url
                 .split("/")
@@ -149,10 +152,32 @@ function Search() {
               alt={p.name}
             />
             <span className={styles.resultName}>
-              {p.name}&#91;{p.url.split("/").slice(-2, -1)}&#93;
+              {p.name}&#91;{p.url.split("/").slice(-2, -1)}&#93;<br/>&lt;-------
             </span>
           </div>
         ))}
+
+
+    </div>
+  </div>
+)}
+
+    {selectedPokemon && (
+  <div className={styles.modalBackdrop} onClick={resetSelection}>
+    <div
+      className={styles.modalCard}
+      onClick={(e) => e.stopPropagation()} // prevent backdrop click from closing
+    >
+      <h2>{selectedPokemon.name}</h2>
+      <img
+        src={selectedPokemon.sprites.front_default}
+        alt={selectedPokemon.name}
+      />
+      <p>ID: {selectedPokemon.id}</p>
+      <p>
+        Types: {selectedPokemon.types.map((t) => t.type.name).join(", ")}
+      </p>
+      <button onClick={resetSelection}>Close</button>
     </div>
   </div>
 )}

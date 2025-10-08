@@ -13,8 +13,8 @@ function App() {
     <>
       <Navbar onViewChange={handleViewChange} />
       <Routes>
-        <Route path="/" element={<Search />} />
-        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/" element={<Search/>} />
+        <Route path="/gallery" element={<Gallery/>} />
       </Routes>
     </>
   );
