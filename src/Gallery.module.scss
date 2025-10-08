@@ -1,0 +1,49 @@
+.galleryContainer {
+  padding: 2rem;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sprite {
+  width: 96px;
+  height: 96px;
+}
+
+.name {
+  text-transform: capitalize;
+  margin-top: 0.5rem;
+  color: #222;
+}
+
+.detailPanel {
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}

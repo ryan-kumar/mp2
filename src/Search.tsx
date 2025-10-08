@@ -68,10 +68,6 @@ function Search() {
 
   
 
-  useEffect(() => {
-    getPokemon();
-  }, []);
-
 
 
   return (
