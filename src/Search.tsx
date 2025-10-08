@@ -7,29 +7,49 @@ import axios from 'axios';
 function Search() {
 
     type PokemonListItem = {
-    name: string;
-    url: string;
+        name: string;
+        url: string;
+        };
+    type PokemonDetail = {
+        name: string;
+        id: number;
+        sprites: {
+            front_default: string;
+        };
+        types: { type: { name: string } }[];
     };
   const [query, setQuery] = useState('');
-  const [sortBy, setSortBy] = useState('evolution');
+  const [sortBy, setSortBy] = useState('title');
   const [order, setOrder] = useState('ascending');
   const [items, setItems] = useState<PokemonListItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<PokemonListItem[]>([]);
+  const [selectedPokemon, setSelectedPokemon] = useState<PokemonDetail | null>(null);
 
  const getPokemon = async () => {
   const apiPath = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
   try {
     const res = await axios.get(apiPath, {});
     setItems(res.data.results);
-    console.log(res.data.results);
+    //console.log(res.data.results);
   } catch (error) {
     console.error("Error fetching Pokémon:", error);
   }
   };
 
+  const getDetails = async (apiPath: string | undefined) => {
+  apiPath  = apiPath ? apiPath : '';
+  try {
+    const res = await axios.get(apiPath, {});
+    setSelectedPokemon(res.data);
+    console.log(res.data);
+  } catch (error) {
+    console.error("Error fetching Pokémon details:", error);
+  }
+  };
+
   const handleSearch = (q: string | undefined) => {
     setQuery(q ? q : '');
-    if (!query) {
+    if (query === '') {
         setFilteredItems(items);
         return;
     }
@@ -40,11 +60,17 @@ function Search() {
     getPokemon();
   }, []);
 
+  
+
+  useEffect(() => {
+    getPokemon();
+  }, []);
+
 
 
   return (
     <>
-    <div className={styles.outer}>
+      <div className={styles.outer}>
       <div className={styles.cliBox}>
         <p>{`> Welcome! Enter the name of the Pokémon you would like to search for:`}</p>
         <div className={styles.prompt}>
@@ -67,11 +93,11 @@ function Search() {
             value={sortBy}
             onValueChange={(val) => val && setSortBy(val)}
           >
-            <ToggleGroup.Item className={styles.toggleButton} value="evolution">
-              Evolution Stage
+            <ToggleGroup.Item className={styles.toggleButton} value="title">
+              Title
             </ToggleGroup.Item>
-            <ToggleGroup.Item className={styles.toggleButton} value="capture-rate">
-              Capture Rate
+            <ToggleGroup.Item className={styles.toggleButton} value="ID">
+              ID Number
             </ToggleGroup.Item>
           </ToggleGroup.Root>
         </div>
@@ -95,11 +121,41 @@ function Search() {
 
       </div>
     </div>
-        <div className={styles.results}>
-        {filteredItems.slice(0, 20).map((p) => (
-            <p key={p.name}>{p.name}</p>
+    {filteredItems.length > 0 && (
+  <div className={styles.containResults}>
+    <div className={styles.resultsContainer}>
+      {[...filteredItems]
+        .sort((a, b) => {
+          // extract numeric IDs from their URLs
+          const idA = parseInt(a.url.split('/').slice(-2, -1)[0]);
+          const idB = parseInt(b.url.split('/').slice(-2, -1)[0]);
+
+          if (sortBy === "ID") {
+            return order === "ascending" ? idA - idB : idB - idA;
+          } else {
+            // default sort by name/title
+            return order === "ascending"
+              ? a.name.localeCompare(b.name)
+              : b.name.localeCompare(a.name);
+          }
+        })
+        .slice(0, 50)
+        .map((p) => (
+          <div key={p.name} className={styles.resultRow}>
+            <img
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.url
+                .split("/")
+                .slice(-2, -1)}.png`}
+              alt={p.name}
+            />
+            <span className={styles.resultName}>
+              {p.name}&#91;{p.url.split("/").slice(-2, -1)}&#93;
+            </span>
+          </div>
         ))}
-        </div>
+    </div>
+  </div>
+)}
      </>
   );
 }

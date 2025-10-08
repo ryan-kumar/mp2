@@ -7,8 +7,8 @@
 .cliBox {
   border: 2px solid black;
   border-radius: 6px;
-  width: 80%;
-  max-width: 600px;
+  width: 50%;
+  
   padding: 2rem;
   font-family: 'Courier New', monospace;
   background-color: #fdfdfd;
@@ -63,3 +63,43 @@
   background: #333;
   color: white;
 }
+.containResults {
+  display: flex;
+  justify-content: center;
+}
+
+.resultsContainer {
+  margin-top: 1.5rem;
+  width: 50%;
+  padding: 0.75rem;
+  border: 2px solid black;
+  border-radius: 8px;
+  max-height: 350px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  color: black;
+
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.resultRow {
+  padding: 0.4rem 0.6rem;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px dashed lightgray;
+
+  &:hover {
+    border: 1px solid black;
+  }
+}
+
+.resultName {
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
